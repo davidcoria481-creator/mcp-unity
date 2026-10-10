@@ -10,8 +10,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 
 [InitializeOnLoad]
-public static class BridgeServer
-{
+public static partial class BridgeServer{
     const string Prefix = "http://127.0.0.1:8090/";
     const int MaxLogs = 500;
 
@@ -184,7 +183,7 @@ public static class BridgeServer
                 return CreateScript(req.path, req.content, req.overwrite);
 
             default:
-                return Json(false, "Comando desconocido: " + req.command);
+               return ExecuteExtra(req.command, body);
         }
     }
 
