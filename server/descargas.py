@@ -16,8 +16,7 @@ import zipfile
 from pathlib import Path
 from urllib.parse import urlparse
 
-import httpx
-
+import ssl; import truststore; import httpx
 # Sitios desde los que se permite descargar (el dominio exacto o un subdominio).
 # Agrega otro sitio aquí solo si confías en él.
 HOSTS_PERMITIDOS = [
@@ -55,7 +54,7 @@ def _descargar(url: str) -> tuple[bytes, str]:
     actual = url
     limite = MAX_DESCARGA_MB * 1024 * 1024
 
-    with httpx.Client(timeout=60, follow_redirects=False, headers=CABECERAS) as cliente:
+    with httpx.Client(timeout=60, follow_redirects=False, headers=CABECERAS, verify=truststore.SSLContext(ssl.PROTOCOL_TLS_CLIENT)) as cliente:
         for _ in range(6):
             if not _host_permitido(actual):
                 host = urlparse(actual).hostname
