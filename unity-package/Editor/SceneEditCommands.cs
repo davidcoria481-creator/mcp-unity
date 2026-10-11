@@ -61,7 +61,7 @@ public static partial class BridgeServer
                 return SaveActiveScene();
 
             default:
-                return Json(false, "Comando desconocido: " + command);
+                return ExecuteProject(command, body);
         }
     }
 

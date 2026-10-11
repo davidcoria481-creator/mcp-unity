@@ -222,4 +222,4 @@ def guardar_escena() -> str:
 
 
 if __name__ == "__main__":
-    mcp.run()
+   import descargas; descargas.registrar(mcp, llamar_unity); mcp.run()
