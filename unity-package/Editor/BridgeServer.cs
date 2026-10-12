@@ -130,7 +130,7 @@ public static partial class BridgeServer{
                 finally { done.Set(); }
             });
 
-            if (!done.Wait(10000))
+            if (!done.Wait(90000))
                 result = Json(false, "Unity no respondió a tiempo");
 
             byte[] bytes = Encoding.UTF8.GetBytes(result);

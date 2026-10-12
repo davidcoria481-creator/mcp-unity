@@ -27,7 +27,7 @@ public static partial class BridgeServer
                 return CaptureScene(JsonUtility.FromJson<CaptureRequest>(body));
 
             default:
-                return Json(false, "Comando desconocido: " + command);
+                return ExecuteModules(command, body);
         }
     }
 

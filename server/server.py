@@ -19,7 +19,7 @@ def llamar_unity(comando: str, **datos) -> str:
     # reintentamos varias veces antes de rendirnos.
     for _ in range(6):
         try:
-            r = httpx.post(UNITY_URL, json=payload, timeout=20)
+            r = httpx.post(UNITY_URL, json=payload, timeout=100)
             resultado = r.json()
             break
         except httpx.ConnectError:
