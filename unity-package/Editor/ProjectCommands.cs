@@ -19,7 +19,7 @@ public static partial class BridgeServer
                 return Json(true, "Unity está importando los archivos nuevos.");
 
             default:
-                return Json(false, "Comando desconocido: " + command);
+                return ExecuteCapture(command, body);
         }
     }
 

@@ -222,4 +222,4 @@ def guardar_escena() -> str:
 
 
 if __name__ == "__main__":
-   import descargas; descargas.registrar(mcp, llamar_unity); mcp.run()
+   import modulos; modulos.registrar_todo(mcp, llamar_unity); mcp.run()
