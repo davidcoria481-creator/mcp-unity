@@ -26,6 +26,7 @@ public static partial class BridgeServer
         public bool createWater;
         public int resolution;
         public int seed;
+        public MountainRange[] ranges;
     }
 
     const string TerrainFolder = "Assets/Terreno";
@@ -34,6 +35,7 @@ public static partial class BridgeServer
     static string CreateIslandTerrain(string body)
     {
         var req = JsonUtility.FromJson<TerrainRequest>(body);
+        extraRanges = req.ranges;
 
         string baseName = string.IsNullOrEmpty(req.name) ? "Isla" : req.name;
         foreach (char c in Path.GetInvalidFileNameChars())
@@ -232,19 +234,20 @@ public static partial class BridgeServer
         h += hills * hillH * coreFree * landFactor;
 
         // Montaña
+        h += ExtraRangesHeight(wx, wz, cx, cz, islandR, seedOffset) * coreFree * landFactor;
         if (mountainH > 0f)
         {
             float a = mountainAngleDeg * Mathf.Deg2Rad;
             float mcx = cx + Mathf.Cos(a) * islandR * 0.7f;
             float mcz = cz + Mathf.Sin(a) * islandR * 0.7f;
-            float mr = islandR * 0.3f;
+            float mr = islandR * 0.42f;
             float mdx = wx - mcx;
             float mdz = wz - mcz;
             float md = Mathf.Sqrt(mdx * mdx + mdz * mdz);
 
             float m = 1f - Smooth(md, 0f, mr);
-            float rough = Mathf.Clamp(0.75f + 1.1f * (Fbm(wx / 90f, wz / 90f, 5, seedOffset + 120f) - 0.5f), 0.45f, 1f);
-            h += mountainH * Mathf.Pow(m, 1.4f) * rough * coreFree * landFactor;
+            float rough = 0.2f + 0.8f * Mathf.Pow(1f - Mathf.Abs(2f * Fbm(wx / 130f, wz / 130f, 4, seedOffset + 120f) - 1f), 2f);
+            h += mountainH * Mathf.Pow(m, 1.1f) * rough * coreFree * landFactor;
         }
 
         return h;
